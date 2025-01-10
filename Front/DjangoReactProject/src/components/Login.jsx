@@ -1,26 +1,32 @@
 import  Button  from "react-bootstrap/Button";
 import  Form  from "react-bootstrap/Form";
 import loginUser from "../api/loginUser";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import PropTypes from 'prop-types';
+import { useNavigate } from "react-router";
+import { AuthContext } from "../App";
 
 
 
+const Login = ({loginData}) => {
 
-const Login = () => {
-
-    const [name,setName]=useState("");
+    const {name,setName}=useContext(AuthContext);
     const [password,setpassword]=useState("");
-    //const [session,setSession]=useState('');
+    const navigate = useNavigate();
+    
+    
 
-    const handleSubmit = (e)=>{
+    const handleSubmit =  async (e)=>{
         e.preventDefault();
-        const loginData=loginUser({
+        const data= await loginUser({
             name: name,
             password:password
         });
-         console.log(loginData);
-         
+        loginData(data, name);
         
+        if(data){
+            navigate('/dashboard');
+        }
 
     }
 
@@ -47,5 +53,9 @@ const Login = () => {
         </Form>
     )
 }
+
+Login.propTypes ={
+    loginData: PropTypes.func.isRequired,
+};
 
 export default Login;

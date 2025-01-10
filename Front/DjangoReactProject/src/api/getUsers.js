@@ -3,7 +3,7 @@ import axios from "axios";
 const getUsers = async ()=>{
     
     try{
-        const result = await axios.get("http://127.0.0.1:8000/users/api/v1/users/")
+        const result = await axios.get("http://localhost:8000/users/regular-users/")
         if(result.status === 200){
             return result.data;
         }
