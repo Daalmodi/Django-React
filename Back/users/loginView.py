@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from .models import User
+from .sessionModel import Session
 from rest_framework.response import Response
 
 class LoginView(APIView):
@@ -9,6 +10,8 @@ class LoginView(APIView):
         try:
             user =User.objects.get(name=name)
             if user.check_password(password):
+                session = Session(user=user)#creamos una nueva sesion
+                session.save()#guardamos la sesion
                 return Response({
                     'message':'Login Exitoso','role':user.role
                 })
